@@ -22,7 +22,10 @@ def get_trans(txn_hash, q=None):
     # transaction_hash
     result['transaction_hash'] = txn_hash
 
-    # block block_confirmations
+    # block
+    result['block'] = int(soup.select("a[href*=block]")[2].text)
+
+    # block_confirmations
     confirmation_text = soup.find(class_='u-label u-label--xs u-label--badge-in u-label--secondary ml-1').text
     iEnd = confirmation_text.find(' ')
     result['block_confirmations'] = int(confirmation_text[0:iEnd])
@@ -45,7 +48,8 @@ def get_trans(txn_hash, q=None):
     # set result to queue(if q)
     if q:
         q.put(result)
-        print(f'{txn_hash}:ok')
+
+    # print(f'{txn_hash}:ok')
     return result
 
 
